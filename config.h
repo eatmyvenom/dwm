@@ -23,13 +23,12 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 
 /* unneeded because i use rofi */
-static const char dmenufont[]       = "Fira Code:size=10";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#0066cc"; // venom - blue that matches my terminal
-static const char col_border[]       = "#000000";
+static const char col_border[]      = "#000000";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_border },
@@ -59,21 +58,21 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "[M]",      monocle },
-	{ "[@]",      spiral },
-	{ "[\\]",     dwindle },
-	{ "H[]",      deck },
-	{ "TTT",      bstack },
-	{ "===",      bstackhoriz },
-	{ "HHH",      grid },
-	{ "###",      nrowgrid },
-	{ "---",      horizgrid },
-	{ ":::",      gaplessgrid },
-	{ "|M|",      centeredmaster },
-	{ ">M>",      centeredfloatingmaster },
-	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ NULL,       NULL },
+	{ "[\\]",     dwindle },                // 0
+	{ "[M]",      monocle },                // 1
+	{ "[@]",      spiral },                 // 2
+	{ "[]=",      tile },                   // 3
+	{ "H[]",      deck },                   // 4
+	{ "TTT",      bstack },                 // 5
+	{ "===",      bstackhoriz },            // 6
+	{ "HHH",      grid },                   // 7
+	{ "###",      nrowgrid },               // 8
+	{ "---",      horizgrid },              // 9
+	{ ":::",      gaplessgrid },            // 10
+	{ "|M|",      centeredmaster },         // 11
+	{ ">M>",      centeredfloatingmaster }, // 12
+	{ "><>",      NULL },                   // 13
+	{ NULL,       NULL },                   // 14
 };
 // venom - make meta/windows key main modifier and alt only used for alt+tab
 #define USE_WINKEY 1
@@ -95,11 +94,6 @@ static const Layout layouts[] = {
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
-/* helper for spawning shell commands in the pre dwm-.0 fashion */
-#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
-
-/* commands */
-static const char *termcmd[]  = { "kitty", NULL };
 
 #include "unfloat.c"
 
@@ -112,16 +106,16 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Right,  focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_Left,   focusstack,     {.i = -1 } },
 
-	{ MODKEY,                       XK_minus,  setgaps,        {.i = -5 } },
-	{ MODKEY,                       XK_equal,  setgaps,        {.i = +5 } },
-	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = gappx  } },
+	{ MODKEY,                       XK_minus,  incrgaps,        {.i = -5 } },
+	{ MODKEY,                       XK_equal,  incrgaps,        {.i = +5 } },
+	{ MODKEY|ShiftMask,             XK_equal,  incrgaps,        {.i = gappoh } },
 
 	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[13]} },
+	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY|ShiftMask,             XK_d,      setlayout,      {.v = &layouts[4]} },
+	{ MODKEY|ShiftMask,             XK_d,      setlayout,      {.v = &layouts[7]} },
 
 	{ MODKEY,                       XK_space,  unfloatvisible, {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
